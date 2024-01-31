@@ -10,9 +10,10 @@ export const getSettings = async() => {
   return data;
 }
 
-// We expect a newSetting object that looks like {setting: newValue}
-// eslint-disable-next-line
-export const updateSetting = async(newSetting: any) => {
+interface updateSettingProps {
+
+}
+export const updateSetting = async(newSetting: updateSettingProps) => {
   const { data, error } = await supabase
     .from("settings")
     .update(newSetting)

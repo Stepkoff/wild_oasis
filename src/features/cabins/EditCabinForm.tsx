@@ -5,11 +5,13 @@ import {Controller, useForm} from "react-hook-form";
 import {FileInput} from "@/ui/FileInput.tsx";
 import {Button} from "@/ui/Button.tsx";
 import z from "zod";
-import {Error, FormRow, Label} from "./CreateCabinForm.tsx";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Cabin} from "@/app/Types.ts";
 import {editCabinFormValidation} from "@/utils/validations.ts";
 import {useEditCabin} from "@/features/cabins/useEditCabin.tsx";
+import {FormRow} from "@/ui/FormRow.tsx";
+import {FormLabel} from "@/ui/FormLabel.tsx";
+import {ErrorMessage} from "@/ui/ErrorMessage.tsx";
 
 interface editCabinFormProps {
   cabin: Cabin
@@ -50,37 +52,37 @@ export const EditCabinForm = ({cabin}:editCabinFormProps) => {
   return (
     <Form onSubmit={onSubmit}>
       <FormRow>
-        <Label htmlFor="cabinName">Cabin name</Label>
+        <FormLabel htmlFor="cabinName">Cabin name</FormLabel>
         <Input disabled={isPending} {...register('cabinName')} type="text" id="cabinName" />
-        {errors.cabinName && <Error>{errors.cabinName.message}</Error>}
+        {errors.cabinName && <ErrorMessage>{errors.cabinName.message}</ErrorMessage>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="maxCapacity">Maximum capacity</Label>
+        <FormLabel htmlFor="maxCapacity">Maximum capacity</FormLabel>
         <Input disabled={isPending} {...register('maxCapacity', {valueAsNumber: true})} type="number" id="maxCapacity" />
-        {errors.maxCapacity && <Error>{errors.maxCapacity.message}</Error>}
+        {errors.maxCapacity && <ErrorMessage>{errors.maxCapacity.message}</ErrorMessage>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="regularPrice">Regular price</Label>
+        <FormLabel htmlFor="regularPrice">Regular price</FormLabel>
         <Input disabled={isPending} {...register('regularPrice', {valueAsNumber: true})} type="number" id="regularPrice" />
-        {errors.regularPrice && <Error>{errors.regularPrice.message}</Error>}
+        {errors.regularPrice && <ErrorMessage>{errors.regularPrice.message}</ErrorMessage>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="discount">Discount</Label>
+        <FormLabel htmlFor="discount">Discount</FormLabel>
         <Input disabled={isPending} {...register('discount', {valueAsNumber: true})} type="number" id="discount" />
-        {errors.discount && <Error>{errors.discount.message}</Error>}
+        {errors.discount && <ErrorMessage>{errors.discount.message}</ErrorMessage>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="description">Description for website</Label>
+        <FormLabel htmlFor="description">Description for website</FormLabel>
         <Textarea disabled={isPending} {...register('description')} id="description" />
-        {errors.description && <Error>{errors.description.message}</Error>}
+        {errors.description && <ErrorMessage>{errors.description.message}</ErrorMessage>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="cabinPhoto">Cabin photo</Label>
+        <FormLabel htmlFor="cabinPhoto">Cabin photo</FormLabel>
         <Controller
           control={control}
           // eslint-disable-next-line
@@ -94,7 +96,7 @@ export const EditCabinForm = ({cabin}:editCabinFormProps) => {
           )}
           name={'cabinPhoto'}
         />
-        {errors.cabinPhoto && <Error>{errors.cabinPhoto.message}</Error>}
+        {errors.cabinPhoto && <ErrorMessage>{errors.cabinPhoto.message}</ErrorMessage>}
       </FormRow>
 
       <FormRow>

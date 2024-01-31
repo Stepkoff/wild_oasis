@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import {Form} from "@/ui/Form.tsx";
 import {Input} from "@/ui/Input.tsx";
 import {Textarea} from "@/ui/Textarea.tsx";
@@ -11,37 +10,9 @@ import {createCabinFormValidation} from "@/utils/validations.ts";
 import {useCreateCabin} from "@/features/cabins/useCreateCabin.tsx";
 import {toast} from "react-toastify";
 import {useQueryClient} from "@tanstack/react-query";
-
-export const FormRow = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
-  padding: 1.2rem 0;
-  &:first-child {
-    padding-top: 0;
-  }
-  &:last-child {
-    padding-bottom: 0;
-  }
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
-`;
-
-export const Label = styled.label`
-  font-weight: 500;
-`;
-
-export const Error = styled.span`
-  font-size: 1.4rem;
-  color: var(--color-red-700);
-`;
+import {FormRow} from "@/ui/FormRow.tsx";
+import {FormLabel} from "@/ui/FormLabel.tsx";
+import {ErrorMessage} from "@/ui/ErrorMessage.tsx";
 
 export const CreateCabinForm = () => {
   const queryClient = useQueryClient();
@@ -87,37 +58,37 @@ export const CreateCabinForm = () => {
   return (
     <Form onSubmit={onSubmit}>
       <FormRow>
-        <Label htmlFor="cabinName">Cabin name</Label>
+        <FormLabel htmlFor="cabinName">Cabin name</FormLabel>
         <Input disabled={isPending} {...register('cabinName')} type="text" id="cabinName" />
-        {errors.cabinName && <Error>{errors.cabinName.message}</Error>}
+        {errors.cabinName && <ErrorMessage>{errors.cabinName.message}</ErrorMessage>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="maxCapacity">Maximum capacity</Label>
+        <FormLabel htmlFor="maxCapacity">Maximum capacity</FormLabel>
         <Input disabled={isPending} {...register('maxCapacity', {valueAsNumber: true})} type="number" id="maxCapacity" />
-        {errors.maxCapacity && <Error>{errors.maxCapacity.message}</Error>}
+        {errors.maxCapacity && <ErrorMessage>{errors.maxCapacity.message}</ErrorMessage>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="regularPrice">Regular price</Label>
+        <FormLabel htmlFor="regularPrice">Regular price</FormLabel>
         <Input disabled={isPending} {...register('regularPrice', {valueAsNumber: true})} type="number" id="regularPrice" />
-        {errors.regularPrice && <Error>{errors.regularPrice.message}</Error>}
+        {errors.regularPrice && <ErrorMessage>{errors.regularPrice.message}</ErrorMessage>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="discount">Discount</Label>
+        <FormLabel htmlFor="discount">Discount</FormLabel>
         <Input disabled={isPending} {...register('discount', {valueAsNumber: true})} type="number" id="discount" />
-        {errors.discount && <Error>{errors.discount.message}</Error>}
+        {errors.discount && <ErrorMessage>{errors.discount.message}</ErrorMessage>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="description">Description for website</Label>
+        <FormLabel htmlFor="description">Description for website</FormLabel>
         <Textarea disabled={isPending} {...register('description')} id="description" />
-        {errors.description && <Error>{errors.description.message}</Error>}
+        {errors.description && <ErrorMessage>{errors.description.message}</ErrorMessage>}
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="cabinPhoto">Cabin photo</Label>
+        <FormLabel htmlFor="cabinPhoto">Cabin photo</FormLabel>
         <Controller
           control={control}
           // eslint-disable-next-line
@@ -131,7 +102,7 @@ export const CreateCabinForm = () => {
           )}
           name={'cabinPhoto'}
         />
-        {errors.cabinPhoto && <Error>{errors.cabinPhoto.message}</Error>}
+        {errors.cabinPhoto && <ErrorMessage>{errors.cabinPhoto.message}</ErrorMessage>}
       </FormRow>
 
       <FormRow>
