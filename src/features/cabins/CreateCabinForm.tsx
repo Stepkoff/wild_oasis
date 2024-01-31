@@ -9,6 +9,8 @@ import {zodResolver} from '@hookform/resolvers/zod'
 import z from 'zod'
 import {createCabinFormValidation} from "@/utils/validations.ts";
 import {useCreateCabin} from "@/features/cabins/useCreateCabin.tsx";
+import {toast} from "react-toastify";
+import {useQueryClient} from "@tanstack/react-query";
 
 export const FormRow = styled.div`
   display: grid;
@@ -42,6 +44,7 @@ export const Error = styled.span`
 `;
 
 export const CreateCabinForm = () => {
+  const queryClient = useQueryClient();
   const {
     handleSubmit,
     register,
@@ -60,7 +63,7 @@ export const CreateCabinForm = () => {
     },
   });
 
-  const {isPending, createNewCabin} = useCreateCabin(reset)
+  const {isPending, createNewCabin} = useCreateCabin()
 
   const onSubmit = handleSubmit((data) => {
     createNewCabin({
@@ -70,6 +73,14 @@ export const CreateCabinForm = () => {
       maxCapacity: data.maxCapacity,
       cabinName: data.cabinName,
       image: data.cabinPhoto,
+    }, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ['cabins']
+        })
+        toast.success('New cabin successfully created');
+        reset?.()
+      }
     })
   })
 

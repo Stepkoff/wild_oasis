@@ -1,4 +1,5 @@
 import supabase, {supabaseUrl} from "@/services/supabase.ts";
+import {Cabin} from "@/app/Types.ts";
 
 // ============================== get cabins
 export const getCabins = async() => {
@@ -20,6 +21,28 @@ interface CreateCabinProps {
   maxCapacity: number,
   regularPrice: number,
   image: File
+}
+// ============================== duplicate cabin
+
+type DuplicateCabinProps = Omit<Cabin, 'id' | 'created_at'>
+export const duplicateCabin = async (cabin: DuplicateCabinProps) => {
+  const { data, error:cabinsError } = await supabase
+    .from('cabins')
+    .insert([{
+      cabinName: `Copy of ${cabin.cabinName}`,
+      discount: cabin.discount,
+      description: cabin.description,
+      maxCapacity: cabin.maxCapacity,
+      regularPrice: cabin.regularPrice,
+      imageUrl: cabin.imageUrl,
+    }])
+    .select()
+    .single()
+  if(cabinsError) {
+    console.error('createCabin', cabinsError);
+    throw new Error('Cabin could not be duplicated')
+  }
+  return data
 }
 
 // ============================== create cabin

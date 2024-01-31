@@ -5,6 +5,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import {useState} from "react";
 import {EditCabinForm} from "@/features/cabins/EditCabinForm.tsx";
 import {useDeleteCabin} from "@/features/cabins/useDeleteCabin.tsx";
+import {HiSquare2Stack} from "react-icons/hi2";
+import {HiPencil, HiTrash} from "react-icons/hi";
+import {useDuplicateCabin} from "@/features/cabins/useDuplicateCabin.tsx";
 
 const TableRow = styled.div`
    display: grid;
@@ -53,6 +56,17 @@ export const CabinRow = ({cabin}:CabinRowProps) => {
   const [showForm, setShowForm] = useState(false);
   const {isPending, deleteCabin} = useDeleteCabin();
 
+  const {isPending: isCreating, duplicate} = useDuplicateCabin();
+  const handleDuplicateCabin = () => {
+    duplicate({
+      description: cabin.description,
+      discount: cabin.discount,
+      regularPrice: cabin.regularPrice,
+      maxCapacity: cabin.maxCapacity,
+      cabinName: cabin.cabinName,
+      imageUrl: cabin.imageUrl,
+    })
+  }
   return (
     <>
       <TableRow role={'row'}>
@@ -62,8 +76,9 @@ export const CabinRow = ({cabin}:CabinRowProps) => {
         <Price>{formatCurrency(cabin.regularPrice)}</Price>
         {cabin.discount ? <Discount>{formatCurrency(cabin.discount)}</Discount> : <span>&mdash;</span>}
         <div>
-          <button onClick={() => setShowForm(prev => !prev)}>Edit</button>
-          <button disabled={isPending} onClick={() => deleteCabin({id: cabin.id, url: cabin.imageUrl})}>Delete</button>
+          <button disabled={isPending || isCreating} onClick={handleDuplicateCabin}><HiSquare2Stack/></button>
+          <button disabled={isPending || isCreating} onClick={() => setShowForm(prev => !prev)}><HiPencil/></button>
+          <button disabled={isPending || isCreating} onClick={() => deleteCabin({id: cabin.id, url: cabin.imageUrl})}><HiTrash/></button>
         </div>
       </TableRow>
       {showForm && <EditCabinForm cabin={cabin} />}
