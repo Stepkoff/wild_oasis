@@ -1,4 +1,5 @@
 import supabase from "./supabase";
+import {Settings} from "@/app/Types.ts";
 
 export const getSettings = async() => {
   const { data, error } = await supabase.from("settings").select("*").single();
@@ -10,13 +11,11 @@ export const getSettings = async() => {
   return data;
 }
 
-interface updateSettingProps {
-
-}
-export const updateSetting = async(newSetting: updateSettingProps) => {
+type updateSettingProps = Omit<Settings, 'id' | 'created_at'>
+export const updateSettings = async(settings: updateSettingProps) => {
   const { data, error } = await supabase
     .from("settings")
-    .update(newSetting)
+    .update(settings)
     // There is only ONE row of settings, and it has the ID=1, and so this is the updated one
     .eq("id", 1)
     .single();

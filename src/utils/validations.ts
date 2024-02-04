@@ -7,6 +7,21 @@ export const ACCEPTED_IMAGE_TYPES = [
   "image/webp",
 ];
 
+export const updateFormValidation = z.object({
+  minBookingLength: z
+    .number()
+    .min(1, {message: 'Must be at least 1 night'}),
+  maxBookingLength: z
+    .number()
+    .min(1, {message: 'Must be at least 1 night'}),
+  maxGuestsPerBooking: z
+    .number()
+    .min(1, {message: 'Minimum 1 guest required'}),
+  breakfastPrice: z
+    .number()
+    .min(1, {message: 'Breakfast must be at least 1$'}),
+})
+
 export const createCabinFormValidation = z.object({
   cabinName: z
     .string()

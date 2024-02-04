@@ -8,23 +8,20 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Settings} from "@/app/Types.ts";
 import {Button} from "@/ui/Button.tsx";
 import {ErrorMessage} from "@/ui/ErrorMessage.tsx";
-
-export const updateFormValidation = z.object({
-  minBookingLength: z
-    .number(),
-  maxBookingLength: z
-    .number(),
-  maxGuestsPerBooking: z
-    .number(),
-  breakfastPrice: z
-    .number()
-})
+import {updateFormValidation} from "@/utils/validations.ts";
+import {useUpdateSettings} from "@/features/settings/useUpdateSettions.tsx";
+import styled from "styled-components";
 
 interface UpdateSettingsFormProps {
   settings: Settings
 }
-export const UpdateSettingsForm = ({settings}:UpdateSettingsFormProps) => {
 
+const ButtonWrapper = styled.div`
+    margin-top: 20px;
+`
+
+export const UpdateSettingsForm = ({settings}:UpdateSettingsFormProps) => {
+  const {update, isPending} = useUpdateSettings()
   const {
     handleSubmit,
     register,
@@ -40,7 +37,7 @@ export const UpdateSettingsForm = ({settings}:UpdateSettingsFormProps) => {
   })
 
   const onSubmit = handleSubmit((data) => {
-    console.log('submit', data)
+    update(data)
   })
 
   return (
@@ -60,12 +57,14 @@ export const UpdateSettingsForm = ({settings}:UpdateSettingsFormProps) => {
         <Input {...register('maxGuestsPerBooking', {valueAsNumber: true})} type='number' id='max-guests' />
         {errors.maxGuestsPerBooking && <ErrorMessage>{errors.maxGuestsPerBooking.message}</ErrorMessage>}
       </FormRow>
-      <FormRow >
+      <FormRow>
         <FormLabel htmlFor={'breakfast-price'}>Breakfast price</FormLabel>
         <Input {...register('breakfastPrice', {valueAsNumber: true})} type='number' id='breakfast-price' />
         {errors.breakfastPrice && <ErrorMessage>{errors.breakfastPrice.message}</ErrorMessage>}
       </FormRow>
-      <Button>Submit</Button>
+      <ButtonWrapper>
+        <Button variation={'primary'} size={'medium'} disabled={isPending}>Submit</Button>
+      </ButtonWrapper>
     </Form>
   );
 }
