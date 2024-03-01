@@ -14,7 +14,10 @@ import {FormRow} from "@/ui/FormRow.tsx";
 import {FormLabel} from "@/ui/FormLabel.tsx";
 import {ErrorMessage} from "@/ui/ErrorMessage.tsx";
 
-export const CreateCabinForm = () => {
+interface CreateCabinFormProps {
+  onClose?: () => void
+}
+export const CreateCabinForm = ({onClose}: CreateCabinFormProps) => {
   const queryClient = useQueryClient();
   const {
     handleSubmit,
@@ -51,12 +54,13 @@ export const CreateCabinForm = () => {
         })
         toast.success('New cabin successfully created');
         reset?.()
+        onClose?.()
       }
     })
   })
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form type={'modal'} onSubmit={onSubmit}>
       <FormRow>
         <FormLabel htmlFor="cabinName">Cabin name</FormLabel>
         <Input disabled={isPending} {...register('cabinName')} type="text" id="cabinName" />
