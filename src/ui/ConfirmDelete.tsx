@@ -24,9 +24,20 @@ interface ConfirmDelete {
   resourceName: string
   onConfirm: () => void
   disabled: boolean
+  onClose?: () => void
 }
 
-export const ConfirmDelete = ({ resourceName, disabled }:ConfirmDelete) => {
+export const ConfirmDelete = ({ resourceName, disabled, onConfirm, onClose }:ConfirmDelete) => {
+
+  const handleDelete = () => {
+    onConfirm()
+    onClose?.()
+  }
+
+  const handleCancel = () => {
+    onClose?.()
+  }
+
   return (
     <StyledConfirmDelete>
       <Heading as="h3">Delete {resourceName}</Heading>
@@ -36,10 +47,10 @@ export const ConfirmDelete = ({ resourceName, disabled }:ConfirmDelete) => {
       </p>
 
       <div>
-        <Button variation="secondary" disabled={disabled}>
+        <Button onClick={handleCancel} variation="secondary" disabled={disabled}>
           Cancel
         </Button>
-        <Button variation="danger" disabled={disabled}>
+        <Button onClick={handleDelete} variation="danger" disabled={disabled}>
           Delete
         </Button>
       </div>

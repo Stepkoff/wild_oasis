@@ -5,14 +5,16 @@ import {Modal} from "@/ui/Modal.tsx";
 export const AddCabin = () => {
 
   return(
-    <Modal>
-      <Modal.Open openWindowName={'cabin-form'}>
-        <Button>Add new Cabin</Button>
-      </Modal.Open>
-      <Modal.Window openWindowName={'cabin-form'}>
-        <CreateCabinForm></CreateCabinForm>
-      </Modal.Window>
-    </Modal>
+    <div>
+      <Modal>
+        <Modal.Open openWindowName={'cabin-form'}>
+          <Button>Add new Cabin</Button>
+        </Modal.Open>
+        <Modal.Window openWindowName={'cabin-form'}>
+          <CreateCabinForm/>
+        </Modal.Window>
+      </Modal>
+    </div>
   )
 }
 

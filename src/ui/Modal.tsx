@@ -116,7 +116,7 @@ interface WindowProps {
 
 const Window = ({children, openWindowName}:WindowProps) => {
   const {handleClose, openName} = useContext(ModalContext);
-  const modalRef = useOutsideClick(handleClose, handleClose)
+  const modalRef = useOutsideClick(handleClose)
 
   if(openWindowName !== openName) return null
 

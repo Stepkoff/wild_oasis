@@ -15,8 +15,9 @@ import {ErrorMessage} from "@/ui/ErrorMessage.tsx";
 
 interface editCabinFormProps {
   cabin: Cabin
+  onClose?: () => void
 }
-export const EditCabinForm = ({cabin}:editCabinFormProps) => {
+export const EditCabinForm = ({cabin, onClose}:editCabinFormProps) => {
   const {
     handleSubmit,
     register,
@@ -46,6 +47,10 @@ export const EditCabinForm = ({cabin}:editCabinFormProps) => {
       cabinName: data.cabinName,
       image: data.cabinPhoto,
       urlToOldPic: cabin.imageUrl
+    }, {
+      onSuccess: () => {
+        onClose?.()
+      }
     })
   })
 

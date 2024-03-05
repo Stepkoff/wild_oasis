@@ -14,17 +14,9 @@ export const getCabins = async() => {
   return data
 }
 
-interface CreateCabinProps {
-  discount: number,
-  description: string,
-  cabinName: string,
-  maxCapacity: number,
-  regularPrice: number,
-  image: File
-}
 // ============================== duplicate cabin
 
-type DuplicateCabinProps = Omit<Cabin, 'id' | 'created_at'>
+type DuplicateCabinProps = Omit<Cabin, 'id' | 'created_at' | 'isCopy'>
 export const duplicateCabin = async (cabin: DuplicateCabinProps) => {
   const { data, error:cabinsError } = await supabase
     .from('cabins')
@@ -35,6 +27,7 @@ export const duplicateCabin = async (cabin: DuplicateCabinProps) => {
       maxCapacity: cabin.maxCapacity,
       regularPrice: cabin.regularPrice,
       imageUrl: cabin.imageUrl,
+      isCopy: true,
     }])
     .select()
     .single()
@@ -46,6 +39,14 @@ export const duplicateCabin = async (cabin: DuplicateCabinProps) => {
 }
 
 // ============================== create cabin
+interface CreateCabinProps {
+  discount: number,
+  description: string,
+  cabinName: string,
+  maxCapacity: number,
+  regularPrice: number,
+  image: File
+}
 export const createCabin = async(cabin: CreateCabinProps) => {
   const imageName = `${(Math.random() + 1).toString(36).substring(3)}_${cabin.image.name}`.replaceAll('/', '');
   const imagePath: string = `${supabaseUrl}/storage/v1/object/public/cabinsPics/${imageName}`
@@ -60,6 +61,7 @@ export const createCabin = async(cabin: CreateCabinProps) => {
       maxCapacity: cabin.maxCapacity,
       regularPrice: cabin.regularPrice,
       imageUrl: imagePath,
+      isCopy: false,
     }])
     .select()
     .single()
@@ -83,6 +85,7 @@ export const createCabin = async(cabin: CreateCabinProps) => {
   return cabinsData
 }
 
+// ============================== update cabin
 interface EditCabinProps {
   id: number,
   discount: number,
@@ -94,7 +97,6 @@ interface EditCabinProps {
   urlToOldPic: string
 }
 
-// ============================== update cabin
 export const editCabin = async(cabin:EditCabinProps) => {
   let imageName = undefined
   let imagePath = undefined
@@ -151,26 +153,30 @@ export const editCabin = async(cabin:EditCabinProps) => {
   return cabinData
 }
 
+
+// ============================== delete cabin
 interface DeleteCabinProps {
   id: number,
   url: string,
+  isCopy: boolean,
 }
-// ============================== delete cabin
-export const deleteCabin = async ({id, url}:DeleteCabinProps) => {
+export const deleteCabin = async ({id, url, isCopy}:DeleteCabinProps) => {
   const {data, error} = await supabase.from('cabins').delete().eq('id', id);
   if(error) {
     console.error('deleteCabin', error);
     throw new Error('Cabin could not be deleted')
   }
 
-  const { error: storageError } = await supabase
-    .storage
-    .from('cabinsPics')
-    .remove([url.split('/').slice(-1).toString()])
+  if(!isCopy) {
+    const { error: storageError } = await supabase
+      .storage
+      .from('cabinsPics')
+      .remove([url.split('/').slice(-1).toString()])
 
-  if(storageError) {
-    console.error('Delete image', storageError);
-    throw new Error('image could not be deleted')
+    if(storageError) {
+      console.error('Delete image', storageError);
+      throw new Error('image could not be deleted')
+    }
   }
 
   return data

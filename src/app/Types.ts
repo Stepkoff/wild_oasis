@@ -25,6 +25,7 @@ export interface Cabin {
   discount: number
   description: string
   imageUrl: string
+  isCopy: boolean
 }
 
 export interface Guest {
