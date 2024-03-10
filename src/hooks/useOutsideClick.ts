@@ -1,8 +1,8 @@
 import {useEffect, useRef} from "react";
 
 //eslint-disable-next-line
-export const useOutsideClick = (handler: () => void, eventCapturing: boolean = true) => {
-  const ref = useRef<HTMLDivElement>(null);
+export const useOutsideClick = <T extends Element>(handler: () => void, eventCapturing: boolean = true) => {
+  const ref = useRef<T>(null);
 
   useEffect(() => {
 

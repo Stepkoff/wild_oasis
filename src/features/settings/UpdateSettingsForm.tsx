@@ -63,7 +63,7 @@ export const UpdateSettingsForm = ({settings}:UpdateSettingsFormProps) => {
         {errors.breakfastPrice && <ErrorMessage>{errors.breakfastPrice.message}</ErrorMessage>}
       </FormRow>
       <ButtonWrapper>
-        <Button variation={'primary'} size={'medium'} disabled={isPending}>Submit</Button>
+        <Button $variation={'primary'} $size={'medium'} disabled={isPending}>Submit</Button>
       </ButtonWrapper>
     </Form>
   );

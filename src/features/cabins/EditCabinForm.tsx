@@ -105,7 +105,7 @@ export const EditCabinForm = ({cabin, onClose}:editCabinFormProps) => {
       </FormRow>
 
       <FormRow>
-        <Button type={'button'} disabled={isPending} onClick={() => console.log('close ?')} variation={'secondary'}>
+        <Button type={'button'} disabled={isPending} onClick={() => console.log('close ?')} $variation={'secondary'}>
           Cancel
         </Button>
         <Button disabled={isPending} type={'submit'}>Save cabin</Button>

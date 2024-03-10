@@ -47,10 +47,10 @@ export const ConfirmDelete = ({ resourceName, disabled, onConfirm, onClose }:Con
       </p>
 
       <div>
-        <Button onClick={handleCancel} variation="secondary" disabled={disabled}>
+        <Button onClick={handleCancel} $variation="secondary" disabled={disabled}>
           Cancel
         </Button>
-        <Button onClick={handleDelete} variation="danger" disabled={disabled}>
+        <Button onClick={handleDelete} $variation="danger" disabled={disabled}>
           Delete
         </Button>
       </div>

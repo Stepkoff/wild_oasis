@@ -49,8 +49,8 @@ const variations = {
 };
 
 interface Button {
-  size?: 'small' | 'medium' | 'large'
-  variation?: 'primary' | 'secondary' | 'danger'
+  $size?: 'small' | 'medium' | 'large'
+  $variation?: 'primary' | 'secondary' | 'danger'
 }
 
 
@@ -59,11 +59,11 @@ export const Button = styled.button<Button>`
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
   cursor: pointer;
-  ${(props) => props.size && sizes[props.size]}
-  ${(props) => props.variation && variations[props.variation]}
+  ${(props) => props.$size && sizes[props.$size]}
+  ${(props) => props.$variation && variations[props.$variation]}
 `
 
 Button.defaultProps = {
-  variation: "primary",
-  size: "medium",
+  $variation: "primary",
+  $size: "medium",
 };

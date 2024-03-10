@@ -102,7 +102,7 @@ export const Modal = ({children}:ModalProps) => {
 }
 interface OpenProps {
   children: React.ReactElement;
-  openWindowName: 'cabin-form'
+  openWindowName: 'cabin-form' | 'confirm-delete'
 }
 const Open = ({openWindowName, children}:OpenProps) => {
   const {handleOpen} = useContext(ModalContext)
@@ -111,12 +111,12 @@ const Open = ({openWindowName, children}:OpenProps) => {
 
 interface WindowProps {
   children: React.ReactElement,
-  openWindowName: 'cabin-form'
+  openWindowName: 'cabin-form' | 'confirm-delete'
 }
 
 const Window = ({children, openWindowName}:WindowProps) => {
   const {handleClose, openName} = useContext(ModalContext);
-  const modalRef = useOutsideClick(handleClose)
+  const modalRef = useOutsideClick<HTMLDivElement>(handleClose)
 
   if(openWindowName !== openName) return null
 

@@ -60,7 +60,7 @@ export const CreateCabinForm = ({onClose}: CreateCabinFormProps) => {
   })
 
   return (
-    <Form type={'modal'} onSubmit={onSubmit}>
+    <Form type={'modal'}  onSubmit={onSubmit}>
       <FormRow>
         <FormLabel htmlFor="cabinName">Cabin name</FormLabel>
         <Input disabled={isPending} {...register('cabinName')} type="text" id="cabinName" />
@@ -110,7 +110,7 @@ export const CreateCabinForm = ({onClose}: CreateCabinFormProps) => {
       </FormRow>
 
       <FormRow>
-        <Button disabled={isPending} onClick={() => reset()} variation={'secondary'} type="reset">
+        <Button disabled={isPending} onClick={() => reset()} $variation={'secondary'} type="reset">
           Cancel
         </Button>
         <Button disabled={isPending} type={'submit'}>Create cabin</Button>
