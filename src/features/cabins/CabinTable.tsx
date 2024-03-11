@@ -6,7 +6,7 @@ import {CabinRow} from "@/features/cabins/CabinRow.tsx";
 import {Table} from "@/ui/Table.tsx";
 import {Menus} from "@/ui/Menus.tsx";
 import {useSearchParams} from "react-router-dom";
-import {CabinTableOperationsValues} from "@/features/cabins/CabinTableOperations.tsx";
+import {CabinTableOperationsValues} from "@/features/cabins/cabinConsts.ts";
 
 // const Table = styled.div`
 //   border: 1px solid var(--color-grey-200);
@@ -29,6 +29,9 @@ import {CabinTableOperationsValues} from "@/features/cabins/CabinTableOperations
 //   color: var(--color-grey-600);
 //   padding: 1.6rem 2.4rem;
 // `;
+
+
+
 
 export const CabinTable = () => {
   const [searchParams] = useSearchParams();
