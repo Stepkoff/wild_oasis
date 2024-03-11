@@ -11,16 +11,12 @@ const StyledFilter = styled.div`
   gap: 0.4rem;
 `;
 
-interface FilterButton {
-  active?: boolean
-}
-
-const FilterButton = styled.button<FilterButton>`
+const FilterButton = styled.button<{$activeVal: boolean}>`
   background-color: var(--color-grey-0);
   border: none;
 
   ${(props) =>
-      props?.active &&
+      props?.$activeVal &&
       css`
         background-color: var(--color-brand-600);
         color: var(--color-brand-50);
@@ -39,34 +35,24 @@ const FilterButton = styled.button<FilterButton>`
   }
 `;
 
-interface Filter {
-  filterField: string,
-  options: {value: string, label: string}[]
-}
-
-export const Filter = ({ filterField, options }:Filter) => {
+export const Filter = ({filterField, options}: {filterField: string, options: object}) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentFilter = searchParams.get(filterField) || options?.at(0)?.value;
+  const currentFilter = searchParams.get(filterField) || Object.keys(options)[0];
 
   function handleClick(value: string) {
     searchParams.set(filterField, value);
-    if (searchParams.get("page")) searchParams.set("page", '1');
-
+    // if (searchParams.get("page")) searchParams.set("page", '1');
     setSearchParams(searchParams);
   }
 
   return (
     <StyledFilter>
-      {options.map((option) => (
-        <FilterButton
-          key={option.value}
-          onClick={() => handleClick(option?.value)}
-          active={option?.value === currentFilter}
-          disabled={option?.value === currentFilter}
-        >
-          {option?.label}
-        </FilterButton>
+      {Object.entries(options).map(optionArr => (
+          <FilterButton $activeVal={currentFilter === optionArr[0]} key={optionArr[0]} onClick={() => handleClick(optionArr[0])}>{optionArr[1]}</FilterButton>
       ))}
+      {/*{options.map(item => (*/}
+      {/*  <FilterButton key={item} onClick={() => handleClick(item)}>{item}</FilterButton>*/}
+      {/*))}*/}
     </StyledFilter>
   );
 }

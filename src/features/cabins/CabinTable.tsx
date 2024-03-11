@@ -5,6 +5,8 @@ import {Spinner} from "@/ui/Spinner.tsx";
 import {CabinRow} from "@/features/cabins/CabinRow.tsx";
 import {Table} from "@/ui/Table.tsx";
 import {Menus} from "@/ui/Menus.tsx";
+import {useSearchParams} from "react-router-dom";
+import {CabinTableOperationsValues} from "@/features/cabins/CabinTableOperations.tsx";
 
 // const Table = styled.div`
 //   border: 1px solid var(--color-grey-200);
@@ -29,14 +31,32 @@ import {Menus} from "@/ui/Menus.tsx";
 // `;
 
 export const CabinTable = () => {
+  const [searchParams] = useSearchParams();
+
   const {data: cabins, isLoading} = useQuery<Cabin[]>({
     queryKey: ['cabins'],
     queryFn: getCabins,
-  })
+  });
 
   if(isLoading) return (
     <Spinner/>
   )
+
+  const filterValue = searchParams.get('discount') || 'all'
+
+  let filteredCabins:Cabin[] | undefined = []
+
+  if(filterValue === Object.keys(CabinTableOperationsValues)[0]) {
+    filteredCabins = cabins
+  }
+
+  if(filterValue === Object.keys(CabinTableOperationsValues)[1]) {
+    filteredCabins = cabins?.filter(cabin => cabin.discount)
+  }
+
+  if(filterValue === Object.keys(CabinTableOperationsValues)[2]) {
+    filteredCabins = cabins?.filter(cabin => !cabin.discount)
+  }
 
   return (
     <Menus>
@@ -49,7 +69,7 @@ export const CabinTable = () => {
           <div>Discount</div>
           <div></div>
         </Table.Header>
-        <Table.Body data={cabins} render={(cabin) => (<CabinRow key={cabin.id} cabin={cabin} />)} />
+        <Table.Body data={filteredCabins} render={(cabin) => (<CabinRow key={cabin.id} cabin={cabin} />)} />
       </Table>
     </Menus>
   )
